@@ -147,7 +147,36 @@ class MetodosOrdenamiento{
 			System.out.println("Tiempo de ejecucion: " + (tFin-tInicio));
 		}
 
-	}//Class Insercion
+	}//Class Insercion}
+	
+	static class Seleccion{
+		static public void ordenamientoSeleccion(int[] numeros) {
+			tInicio = 0;
+			tFin = 0;
+			intercambios = 0;
+			comparaciones = 0;
+			tInicio = System.nanoTime();
+			for (int i = 0; i < numeros.length-1; i++) {
+			for (int j = i; j < numeros.length; j++) {
+				comparaciones = comparaciones +1;
+				if(numeros[i]>numeros[j]) {
+					intercambios = intercambios +1;
+					int minimo = numeros[i];
+					numeros[i] = numeros[j];
+					numeros[j]= minimo;
+				}
+				
+			}
+				
+			}
+			tFin = System.nanoTime();
+			System.out.println("Tiempo de ejecucion: " + (tFin-tInicio));
+			System.out.println("Numero de intercambios: " + intercambios);
+			System.out.println("Numero de comparaciones: " + comparaciones);
+		}
+	}
+	
+	
 	
 }//CLass MetodosOrdenamiento
 
@@ -165,48 +194,48 @@ public class PruebaMetodosDeOrdenamiento {
 		//Agregar MENU!
 		int opcion = 0;
 		
-		Random aleatorio = new Random(System.currentTimeMillis());
+		//Random aleatorio = new Random(System.currentTimeMillis());
 		
-		System.out.println("Antes que nada digite la cantidad de numeros aleatorios para el estres");
-		int cantidad = Correcion.validacion();
-		int numeros[] = new int[cantidad];
+		
+		
+		
 		do{
+			int numeros[] = {23,34,12,4,2,67,1,11,5,4,7,9,10};
+			int numeros2[];
 			System.out.println("=================== MENU ===================");
 			System.out.println("Digite 1 para usar el metodo de ordenacion BURBUJA");
 			System.out.println("Digite 2 para usar el metodo de Ordenamiento INSERCION");
-			System.out.println("Digite 3 para ***SALIR***");
+			System.out.println("Digite 3 para usar el metodo de Seleccion ");
+			System.out.println("Digite 4 para ***SALIR***");
 			opcion = Correcion.validacion();
 			switch (opcion) {
 			case 1:
+				numeros2 = numeros;
 				System.out.println("Digite 1 para usar le metodo de Burbuja 1");
 				System.out.println("Digite 2 para usar le metodo de Burbuja 2");
 				System.out.println("Digite 3 para usar le metodo de Burbuja 3");
 				int op2 = Correcion.validacion();
-				for (int i = 0; i <cantidad; i++) {
-					int intAletorio = aleatorio.nextInt(cantidad);
-					numeros[i]=intAletorio +1;
-				}
 				if(op2==1) {
 					System.out.println("Metodo de la burbuaja #1");
 					System.out.println("===== Vector DESORDENADO =====");
-					MetodosOrdenamiento.Burbuja.mostrarVector(numeros);
-					MetodosOrdenamiento.Burbuja.ordenacionBurbuja1(numeros);
+					MetodosOrdenamiento.Burbuja.mostrarVector(numeros2);
+					MetodosOrdenamiento.Burbuja.ordenacionBurbuja1(numeros2);
 					System.out.println("===== Vector ORDENADO =====");
-					MetodosOrdenamiento.Burbuja.mostrarVector(numeros);
+					MetodosOrdenamiento.Burbuja.mostrarVector(numeros2);
 				}else if(op2==2) {
 					System.out.println("Metodo de la burbuaja #2");
 					System.out.println("===== Vector DESORDENADO =====");
-					MetodosOrdenamiento.Burbuja.mostrarVector(numeros);
-					MetodosOrdenamiento.Burbuja.ordenacionBurbuja2(numeros);
+					MetodosOrdenamiento.Burbuja.mostrarVector(numeros2);
+					MetodosOrdenamiento.Burbuja.ordenacionBurbuja2(numeros2);
 					System.out.println("===== Vector ORDENADO =====");
-					MetodosOrdenamiento.Burbuja.mostrarVector(numeros);
+					MetodosOrdenamiento.Burbuja.mostrarVector(numeros2);
 				}else if(op2==3){
 					System.out.println("Metodo de la burbuaja #2");
 					System.out.println("===== Vector DESORDENADO =====");
-					MetodosOrdenamiento.Burbuja.mostrarVector(numeros);
-					MetodosOrdenamiento.Burbuja.ordenacionBurbuja2(numeros);
+					MetodosOrdenamiento.Burbuja.mostrarVector(numeros2);
+					MetodosOrdenamiento.Burbuja.ordenacionBurbuja2(numeros2);
 					System.out.println("===== Vector ORDENADO =====");
-					MetodosOrdenamiento.Burbuja.mostrarVector(numeros);
+					MetodosOrdenamiento.Burbuja.mostrarVector(numeros2);
 				}else {
 					System.out.println("Opcion no disponible");
 				}
@@ -215,23 +244,24 @@ public class PruebaMetodosDeOrdenamiento {
 				break;
 			
 			case 2: 
-				for (int i = 0; i <cantidad; i++) {
-					int intAletorio = aleatorio.nextInt(cantidad);
-					numeros[i]=intAletorio +1;
-				}
+				numeros2 = numeros;
 				System.out.println("=== Metodo de Insercion ===");
-				System.out.println("Desordenados:" + Arrays.toString(numeros));
-				MetodosOrdenamiento.Insercion.ordenarInsercion(numeros);
-			
-				System.out.println("Ordenados: " + Arrays.toString(numeros));
+				System.out.println("Desordenados:" + Arrays.toString(numeros2));
+				MetodosOrdenamiento.Insercion.ordenarInsercion(numeros2);
+				System.out.println("Ordenados: " + Arrays.toString(numeros2));
 					break;
-			case 3:
+			case 4:
 				System.out.println("Gracias por usar");
 				break;
-			
+			case 3:
+				numeros2 = numeros;
+				System.out.println("===== Metodo de Seleccion ===== ");
+				System.out.println("Desordenados: " + Arrays.toString(numeros2));
+				MetodosOrdenamiento.Seleccion.ordenamientoSeleccion(numeros2);
+				System.out.println("Ordenado: " + Arrays.toString(numeros2));break;
 			}
 			
-		}while (opcion!=3);//Usar aqui el numero de ***SALIR***
+		}while (opcion!=4);//Usar aqui el numero de ***SALIR***
 		
 		
 		
