@@ -59,9 +59,8 @@ class MetodosOrdenamiento{
 			tInicio = 0;
 			tFin = 0;
 		}//Metodo OrdenacionBurbuja1
-		public static void ordenacionBurbuja2(int[] numers) {
+		public static void ordenacionBurbuja2(int[] numeros) {
 			System.out.println("======ordenacionBurbuja2======");
-			int[] numeros = numers;
 			comparaciones=0;
 			intercambios=0;
 			
@@ -174,6 +173,31 @@ class MetodosOrdenamiento{
 			System.out.println("Numero de intercambios: " + intercambios);
 			System.out.println("Numero de comparaciones: " + comparaciones);
 		}
+	}//class seleccion
+	
+	
+	static class Quiqsort{
+		static public int[] quicksort(int[] numeros,int izq,int der) {
+			int pivote = numeros[izq];
+			int i = izq, j = der;
+			int aux;
+			while(i<j) {
+				while(numeros[i]<=pivote && i<j) i++;
+				while(numeros[j]>pivote)j--;
+				if(i<j) {
+					aux = numeros[i];
+					numeros[i]=numeros[j];
+					numeros[j] = aux;
+				}
+			}
+			numeros[izq]=numeros[j];
+			numeros[j]=pivote;
+			if(izq<j-1)
+				quicksort(numeros,izq,j-1);
+			if(j+1<der)
+				quicksort(numeros, j+1, der);
+			return numeros;
+		}
 	}
 	
 	
@@ -198,22 +222,24 @@ public class PruebaMetodosDeOrdenamiento {
 		
 		
 		
-		
+		int numeros[] = {23,34,12,4,2,67,1,11,5,4,7,9,10};
+		int numeros2[];
 		do{
-			int numeros[] = {23,34,12,4,2,67,1,11,5,4,7,9,10};
-			int numeros2[];
-			System.out.println("=================== MENU ===================");
+			
+			numeros2 = numeros.clone();
+			System.out.println("======================== MENU ========================");
 			System.out.println("Digite 1 para usar el metodo de ordenacion BURBUJA");
 			System.out.println("Digite 2 para usar el metodo de Ordenamiento INSERCION");
-			System.out.println("Digite 3 para usar el metodo de Seleccion ");
-			System.out.println("Digite 4 para ***SALIR***");
+			System.out.println("Digite 3 para usar el metodo de Ordenamiento SELECCION ");
+			System.out.println("Digite 4 para usar el metodo de Ordenamiento QUICKSORT");
+			System.out.println("Digite 5 para ***SALIR***");
 			opcion = Correcion.validacion();
 			switch (opcion) {
 			case 1:
-				numeros2 = numeros;
-				System.out.println("Digite 1 para usar le metodo de Burbuja 1");
-				System.out.println("Digite 2 para usar le metodo de Burbuja 2");
-				System.out.println("Digite 3 para usar le metodo de Burbuja 3");
+				//numeros2 = numeros;
+				System.out.println("Digite 1 para usar el metodo de Burbuja 1");
+				System.out.println("Digite 2 para usar el metodo de Burbuja 2");
+				System.out.println("Digite 3 para usar el metodo de Burbuja 3");
 				int op2 = Correcion.validacion();
 				if(op2==1) {
 					System.out.println("Metodo de la burbuaja #1");
@@ -244,21 +270,27 @@ public class PruebaMetodosDeOrdenamiento {
 				break;
 			
 			case 2: 
-				numeros2 = numeros;
+				//numeros2 = numeros;
 				System.out.println("=== Metodo de Insercion ===");
 				System.out.println("Desordenados:" + Arrays.toString(numeros2));
 				MetodosOrdenamiento.Insercion.ordenarInsercion(numeros2);
 				System.out.println("Ordenados: " + Arrays.toString(numeros2));
 					break;
 			case 4:
-				System.out.println("Gracias por usar");
-				break;
-			case 3:
+				System.out.println("===== Metodo de QuickSort =====");
 				numeros2 = numeros;
+				System.out.println("Desordenado: " + Arrays.toString(numeros2));
+				MetodosOrdenamiento.Quiqsort.quicksort(numeros2, 0, numeros2.length-1);
+				System.out.println("Ordenado: " + Arrays.toString(numeros2));break;
+			case 3:
+				//numeros2 = numeros;
 				System.out.println("===== Metodo de Seleccion ===== ");
 				System.out.println("Desordenados: " + Arrays.toString(numeros2));
 				MetodosOrdenamiento.Seleccion.ordenamientoSeleccion(numeros2);
 				System.out.println("Ordenado: " + Arrays.toString(numeros2));break;
+			case 5: 
+				System.out.println("Gracias por usar");
+				break;
 			}
 			
 		}while (opcion!=4);//Usar aqui el numero de ***SALIR***
