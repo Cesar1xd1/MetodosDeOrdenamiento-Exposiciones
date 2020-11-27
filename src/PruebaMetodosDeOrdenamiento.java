@@ -198,7 +198,31 @@ class MetodosOrdenamiento{
 				quicksort(numeros, j+1, der);
 			return numeros;
 		}
-	}
+	}//Quicksort
+
+	static class Shellsort{
+		static public void sellsort(int[] numeros) {
+			int intervalo = numeros.length/2;
+			while(intervalo>0) {
+				for(int i = intervalo; numeros.length>i;i++ ) {
+					int j = i-intervalo;
+					while(j>=0) {
+						int k = j+intervalo;
+						if(numeros[j]<=numeros[k]) {
+							j =-1;
+							
+						}else {
+							int aux = numeros[j];
+							numeros[j] = numeros[k];
+							numeros[k] = aux;
+							j-=intervalo;
+						}
+					}
+				}
+				intervalo = intervalo/2;
+			}
+		}
+}//Shellsort
 	
 	
 	
@@ -232,7 +256,8 @@ public class PruebaMetodosDeOrdenamiento {
 			System.out.println("Digite 2 para usar el metodo de Ordenamiento INSERCION");
 			System.out.println("Digite 3 para usar el metodo de Ordenamiento SELECCION ");
 			System.out.println("Digite 4 para usar el metodo de Ordenamiento QUICKSORT");
-			System.out.println("Digite 5 para ***SALIR***");
+			System.out.println("Digite 5 para usar el metodo de Ordenamiento SHELLSORT");
+			System.out.println("Digite 6 para ***SALIR***");
 			opcion = Correcion.validacion();
 			switch (opcion) {
 			case 1:
@@ -265,10 +290,7 @@ public class PruebaMetodosDeOrdenamiento {
 				}else {
 					System.out.println("Opcion no disponible");
 				}
-			
-			
 				break;
-			
 			case 2: 
 				//numeros2 = numeros;
 				System.out.println("=== Metodo de Insercion ===");
@@ -288,12 +310,18 @@ public class PruebaMetodosDeOrdenamiento {
 				System.out.println("Desordenados: " + Arrays.toString(numeros2));
 				MetodosOrdenamiento.Seleccion.ordenamientoSeleccion(numeros2);
 				System.out.println("Ordenado: " + Arrays.toString(numeros2));break;
-			case 5: 
+			case 6: 
 				System.out.println("Gracias por usar");
 				break;
+			case 5:
+				System.out.println("===== Metodo de Seleccion ===== ");
+				System.out.println("Desordenados: " + Arrays.toString(numeros2));
+				MetodosOrdenamiento.Shellsort.sellsort(numeros2);
+				System.out.println("Ordenado: " + Arrays.toString(numeros2));break;
+				
 			}
 			
-		}while (opcion!=4);//Usar aqui el numero de ***SALIR***
+		}while (opcion!=6);//Usar aqui el numero de ***SALIR***
 		
 		
 		
