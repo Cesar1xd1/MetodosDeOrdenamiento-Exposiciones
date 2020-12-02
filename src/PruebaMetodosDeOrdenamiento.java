@@ -36,8 +36,6 @@ class MetodosOrdenamiento{
 		
 		public static void ordenacionBurbuja1(int [] numeros) {
 			comparaciones = 0;
-			comparaciones = 0;
-			
 			tInicio = System.nanoTime();
 			for (int i = 1;i<=numeros.length; i++) {
 				for (int j = 0;j<=numeros.length-i-1; j++) {
@@ -223,6 +221,123 @@ class MetodosOrdenamiento{
 			}
 		}
 }//Shellsort
+	static class RadixSort{
+		static public void radix(int[] numeros) {
+			 if(numeros.length == 0)
+	              return;
+	              int[][] np = new int[numeros.length][2];
+	              int[] q = new int[0x100];
+	              int i,j,k,l,f = 0;
+	              for(k=0;k<4;k++) {
+	                 for(i=0;i<(np.length-1);i++)
+	                 np[i][1] = i+1;
+	                 np[i][1] = -1;
+	                 for(i=0;i<q.length;i++)
+	                 q[i] = -1;
+	                 for(f=i=0;i<numeros.length;i++) {
+	                    j = ((0xFF<<(k<<3))&numeros[i])>>(k<<3);
+	                    if(q[j] == -1)
+	                    l = q[j] = f;
+	                 else {
+	                    l = q[j];
+	                    while(np[l][1] != -1)
+	                    l = np[l][1];
+	                    np[l][1] = f;
+	                    l = np[l][1];
+	                 }
+	                 f = np[f][1];
+	                 np[l][0] = numeros[i];
+	                 np[l][1] = -1;
+	              }
+	              for(l=q[i=j=0];i<0x100;i++)
+	              for(l=q[i];l!=-1;l=np[l][1])
+	                  numeros[j++] = np[l][0];
+	           }//for
+	    }//metodo
+	}//class Radix
+	
+static class Intercalacion{
+public static int[] intercalacion(int primero[],int segundo[]) {
+		
+		int arrayOrdenado[] = new int[primero.length+segundo.length];
+		
+		int i=0,j=0,k=0;
+		
+		while(i<primero.length && j<segundo.length) {
+			if(primero[i]<segundo[j]) {
+				arrayOrdenado[k]=primero[i];
+				k++;
+				i++;
+			}else {
+				arrayOrdenado[k]=segundo[j];
+				k++;
+				j++;
+			}
+		}
+		while(j<segundo.length) {
+			arrayOrdenado[k]=segundo[j];
+			j++;
+			k++;
+		}
+		while(i<primero.length) {
+			arrayOrdenado[k]=segundo[j];
+			j++;
+			k++;
+		}
+		
+		return arrayOrdenado;
+	}
+}
+	
+	
+	
+	
+static class MezclaDirecta{
+	static public int[] mezcladirecta(int[] numeros) {
+		int i,j,k;
+		if(numeros.length >1 ) {
+			int izq = numeros.length/2;
+			int der = numeros.length-izq;
+			
+			int izquierdo[] = new int[izq];
+			int derecho[] = new int [der];
+			
+			for (i = 0; i < izq; i++) {
+				izquierdo[i]=numeros[i];
+			}
+			for(i=izq;i<izq+der;i++ ) {
+				derecho[i-izq]=numeros[i];
+			}
+			izquierdo = mezcladirecta(izquierdo);
+			derecho = mezcladirecta(derecho);
+			i=j=k=0;
+			
+			while(izquierdo.length!=j && derecho.length!=k) {
+				if(izquierdo[j]<derecho[k]) {
+					numeros[i]=izquierdo[j];
+					i++;
+					j++;
+				}else {
+						numeros[i]=derecho[k];
+					i++;
+					k++;
+				}
+			}
+			while(izquierdo.length!=j) {
+				numeros[i]=izquierdo[j];
+				i++;
+				j++;
+			}
+			while(derecho.length!=k) {
+				numeros[i]=derecho[k];
+				i++;
+				k++;
+			}
+		}
+		return numeros;
+	}
+}//MEzcla directa
+	
 	
 	
 	
@@ -248,16 +363,22 @@ public class PruebaMetodosDeOrdenamiento {
 		
 		int numeros[] = {23,34,12,4,2,67,1,11,5,4,7,9,10};
 		int numeros2[];
+		int aux[]= {2,19,30,59,102,215,256,316};
+		int aux2[];
 		do{
 			
 			numeros2 = numeros.clone();
+			aux2 = aux.clone();
 			System.out.println("======================== MENU ========================");
 			System.out.println("Digite 1 para usar el metodo de ordenacion BURBUJA");
 			System.out.println("Digite 2 para usar el metodo de Ordenamiento INSERCION");
 			System.out.println("Digite 3 para usar el metodo de Ordenamiento SELECCION ");
 			System.out.println("Digite 4 para usar el metodo de Ordenamiento QUICKSORT");
 			System.out.println("Digite 5 para usar el metodo de Ordenamiento SHELLSORT");
-			System.out.println("Digite 6 para ***SALIR***");
+			System.out.println("Digite 6 para usar el metodo de Ordenamiento RADIX");
+			System.out.println("Digite 7 para usar el metodo de Ordenamiento INTERCALACION");
+			System.out.println("Digite 8 para usar el metodo de Ordenamiento de MEZCLA DIRECTA");
+			System.out.println("Digite 9 para ***SALIR***");
 			opcion = Correcion.validacion();
 			switch (opcion) {
 			case 1:
@@ -310,31 +431,33 @@ public class PruebaMetodosDeOrdenamiento {
 				System.out.println("Desordenados: " + Arrays.toString(numeros2));
 				MetodosOrdenamiento.Seleccion.ordenamientoSeleccion(numeros2);
 				System.out.println("Ordenado: " + Arrays.toString(numeros2));break;
-			case 6: 
+			case 9: 
 				System.out.println("Gracias por usar");
 				break;
 			case 5:
-				System.out.println("===== Metodo de Seleccion ===== ");
+				System.out.println("===== Metodo de Shellsort ===== ");
 				System.out.println("Desordenados: " + Arrays.toString(numeros2));
 				MetodosOrdenamiento.Shellsort.sellsort(numeros2);
 				System.out.println("Ordenado: " + Arrays.toString(numeros2));break;
-				
+			case 6:
+				System.out.println("===== Metodo de RadixSort ===== ");
+				System.out.println("Desordenados: " + Arrays.toString(numeros2));
+				MetodosOrdenamiento.RadixSort.radix(numeros2);
+				System.out.println("Ordenado: " + Arrays.toString(numeros2));break;
+			case 8:
+				System.out.println("===== Metodo de Mezcla Directa =====");
+				System.out.println("Desordenado" + Arrays.toString(numeros2));
+				MetodosOrdenamiento.MezclaDirecta.mezcladirecta(numeros2);
+				System.out.println("Ordenado " + Arrays.toString(numeros2));break;
+			case 7:
+				System.out.println("===== Metodo de Intercalación =====");
+				System.out.println("Vectores:");
+				System.out.println(Arrays.toString(numeros2));
+				System.out.println(Arrays.toString(aux2));
+				System.out.println("Ordenado y fusionado: " + Arrays.toString(MetodosOrdenamiento.Intercalacion.intercalacion(MetodosOrdenamiento.MezclaDirecta.mezcladirecta(numeros2), MetodosOrdenamiento.MezclaDirecta.mezcladirecta(aux2))));break;
+				//El segundo vector tambien se ordena en caso de que se llegue a desordenar 
 			}
-			
-		}while (opcion!=6);//Usar aqui el numero de ***SALIR***
-		
-		
-		
-		
-		//LLenar el vector con 1 millon de datos aleatorios!!!!!
-		
-		
-		/*Cantidad de pasadas
-		 * Cantidad de comparaciones
-		 * cantidad de intercambios 
-		 */
-	
-		
+		}while (opcion!=9);//Usar aqui el numero de ***SALIR***		
 	}
 
 }
