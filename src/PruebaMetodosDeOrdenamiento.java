@@ -336,8 +336,86 @@ static class MezclaDirecta{
 		}
 		return numeros;
 	}
-}//MEzcla directa
+	static public void mezclaDirecta2 (int[] vector) {
+		int i,j,k;
+		if(vector.length>1) {
+			int nElementosIzquierda = vector.length/2;
+			int nElementosDerecha = vector.length - nElementosIzquierda;
+			int vectorI[] = new int [nElementosIzquierda];
+			int vectorD[] = new int [nElementosDerecha];
+			
+			for (i = 0; i < nElementosIzquierda; i++) {
+				vectorI[i]=vector[i];
+			}
+			
+			for (i = nElementosIzquierda; i < nElementosIzquierda+nElementosDerecha; i++){
+				vectorD[i-nElementosIzquierda] = vector[i];
+			}
+			vectorI = mezcladirecta(vectorI);
+			vectorD = mezcladirecta(vectorD);
+			i=0;
+			j=0;
+			k=0;
+			while(vectorI.length!=j && vectorD.length!=k) {
+				if(vectorI[j]<vectorD[k]) {
+					vector[i]=vectorI[j];
+					i++;
+					j++;
+				}else {
+					vector[i]=vectorD[k];
+					i++;
+					k++;
+				}//Else
+			}//While
+				
+			while(vectorI.length!=j) {
+				vector[i] = vectorI[j];
+				i++;
+				j++;
+			}
+			while(vectorD.length!=k) {
+				vector[i] = vectorD[k];
+				i++;
+				k++;
+			}	
+		}
+	}
 	
+	
+	
+	
+}//MEzcla directa
+static class MezclaNatural {
+	static public void mezcalNatural(int[] numeros) {
+	int izquierda =0;
+	int izq =0;
+	int derecha = numeros.length-1;//Sin el error de nullPointerExepcion
+	int der = derecha;
+	boolean ordenado = false;
+	do {
+		ordenado = true;
+		izquierda = 0;
+		while(izquierda<derecha) {
+			izq =izquierda;
+			while(izq < derecha && numeros[izq]<=numeros[izq+1]) {
+				izq++;
+			}
+			der = izq +1;
+			while(der==derecha-1 || der<derecha && numeros[der]<=numeros[der+1]) {
+				der++;
+			}
+			if(der<=derecha) {
+				MezclaDirecta.mezclaDirecta2(numeros);
+				
+				ordenado = false;
+			}
+			izquierda=izq;
+			
+		}
+	}while(!ordenado);	
+	}
+
+}//Class
 	
 	
 	
@@ -378,7 +456,8 @@ public class PruebaMetodosDeOrdenamiento {
 			System.out.println("Digite 6 para usar el metodo de Ordenamiento RADIX");
 			System.out.println("Digite 7 para usar el metodo de Ordenamiento INTERCALACION");
 			System.out.println("Digite 8 para usar el metodo de Ordenamiento de MEZCLA DIRECTA");
-			System.out.println("Digite 9 para ***SALIR***");
+			System.out.println("Digite 9 para usar el metodo de Ordenamiento de MEZCLA NATURAL");
+			System.out.println("Digite 10 para ***SALIR***");
 			opcion = Correcion.validacion();
 			switch (opcion) {
 			case 1:
@@ -431,7 +510,7 @@ public class PruebaMetodosDeOrdenamiento {
 				System.out.println("Desordenados: " + Arrays.toString(numeros2));
 				MetodosOrdenamiento.Seleccion.ordenamientoSeleccion(numeros2);
 				System.out.println("Ordenado: " + Arrays.toString(numeros2));break;
-			case 9: 
+			case 10: 
 				System.out.println("Gracias por usar");
 				break;
 			case 5:
@@ -456,8 +535,13 @@ public class PruebaMetodosDeOrdenamiento {
 				System.out.println(Arrays.toString(aux2));
 				System.out.println("Ordenado y fusionado: " + Arrays.toString(MetodosOrdenamiento.Intercalacion.intercalacion(MetodosOrdenamiento.MezclaDirecta.mezcladirecta(numeros2), MetodosOrdenamiento.MezclaDirecta.mezcladirecta(aux2))));break;
 				//El segundo vector tambien se ordena en caso de que se llegue a desordenar 
+			case 9:
+				System.out.println("===== Metodo de Mezcla Natural =====");
+				System.out.println("Desordenado: " + Arrays.toString(numeros2));
+				MetodosOrdenamiento.MezclaNatural.mezcalNatural(numeros2);
+				System.out.println("Ordenados: " + Arrays.toString(numeros2));break;
 			}
-		}while (opcion!=9);//Usar aqui el numero de ***SALIR***		
+		}while (opcion!=10);//Usar aqui el numero de ***SALIR***		
 	}
 
 }
